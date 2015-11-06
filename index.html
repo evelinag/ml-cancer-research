@@ -1,0 +1,811 @@
+﻿<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>How machine learning helps cancer research</title>
+    <meta name="description" content="Talk at Oredev">
+    <meta name="author" content="Evelina Gabasova">
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="//code.jquery.com/jquery-1.8.0.js"></script>
+    <script src="//code.jquery.com/ui/1.8.23/jquery-ui.js"></script>
+    <script src="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/reveal.css">
+    <link rel="stylesheet" href="css/theme/white.css" id="theme">
+    <link type="text/css" rel="stylesheet" href="fsharp.formatting/styles/deedle.css" />
+    <link type="text/css" rel="stylesheet" href="images/styles/light.css" />
+    <link type="text/css" rel="stylesheet" href="css/custom.css" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+    <script src="fsharp.formatting/styles/tips.js" type="text/javascript"></script>
+    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="lib/css/zenburn.css">
+    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
+    <script>
+			if( window.location.search.match( /print-pdf/gi ) ) {
+				var link = document.createElement( 'link' );
+				link.rel = 'stylesheet';
+				link.type = 'text/css';
+				link.href = 'css/print/pdf.css';
+				document.getElementsByTagName( 'head' )[0].appendChild( link );
+			}
+    </script>
+    <!--[if lt IE 9]>
+    <script src="lib/js/html5shiv.js"></script>
+    <![endif]-->
+</head>
+<body>
+    <div class="reveal">
+        
+        <!-- Any section element inside of this container is displayed as a slide -->
+        <div class="slides">
+            <section >
+
+<img src="images/CU_background.jpg" style="height:350px" />
+
+<h1>How machine learning helps cancer research</h1>
+
+<h2>Evelina Gabasova</h2>
+
+<h2>@evelgab</h2>
+
+<h3>MRC Cancer Unit, University of Cambridge</h3>
+
+</section>
+
+<section >
+
+<section >
+
+<table><tr><td class="noborder">
+
+<h1>DNA</h1>
+
+<img src="images/DNA-structure.png" style="width:800px" />
+</td><td class="noborder">
+<img src="images/DNA-path.png" style="width:960px" />
+</td></tr>
+</table>
+
+<aside class="notes">
+DNA path – 2.5 km<br/>
+10,000 colored stripes representing BRCA2 gene, one of approx.  30,000 genes in human<br/>
+3 billion BPs<br/>
+Whole DNA – 20 times around the Earth<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Cost of whole genome sequencing</h1>
+
+<img src="images/sequencing-cost.png" style="width:800px" />
+
+<aside class="notes">
+The whole area is 15 years old<br/>
+Human genome project finished in 2003<br/>
+Joint effort of 20 research centres<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Sequencing data</h1>
+
+<img src="images/big-data-genomical2.png" style="width:1200px" />
+
+<aside class="notes">
+It is projected that soon just the amount of sequencing information we’ll have will be larger than what data astronomy, particle physics processes<br/>
+Projected in a couple of years, genomics will have more data than Youtube (300 hours of video are uploaded to YouTube every minute)<br/>
+-> challenges – high dimensionality (DNA is HUGE)<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>DNA and genes</h1>
+
+<img src="images/transcription.png" style="width:960px" />
+
+<aside class="notes">
+DNA is stable storage<br/>
+Contains genes, each gene encodes a protein<br/>
+To synthetize a protein, we need to copy out a piece of DNA<br/>
+Explain what is gene expression – crutial part of analysing cells<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<table><tr><td class="noborder">
+
+<br /> <br />
+
+<h1>Cancer</h1>
+
+<ul>
+<li>Genetic mutations</li>
+<li>Oncogenes and tumour suppressors</li>
+</ul>
+
+<br /> <br />
+
+<p><strong>BRCA1 and BRCA2 are
+chromosome guardians</strong></p>
+
+<br /> <br />
+
+<ul>
+<li>Cancer is not a single disease</li>
+</ul>
+
+</td><td class="noborder">
+<img src="images/BRCA1.png" style="height:250px" />
+<img src="images/BRCA2.jpg" style="height:400px" />
+</td></tr>
+</table>
+
+<aside class="notes">
+Cancer is a group of diseases, characterized by uncontrolled growth of tissues<br/>
+BRCA genes act as guardians during chromosome duplication – repair errors during the duplication<br/>
+BRCA2 discovered in 1994<br/>
+Cancer ~ bugs in genetic code<br/>
+Mutation in gene (change in base pair, malformed protein, different function)<br/>
+Find causal mechanisms of cancer - imagine debugging large program in unknown programming<br/>
+language, that you can't easily run<br/>
+(it's possible to isolate little parts of the system and tweak them in the lab)<br/>
+</aside>
+
+</section>
+
+</section>
+
+<section >
+
+<section >
+
+<table><tr><td class="noborder">
+
+<div style="height:500px" >
+</div>
+
+<h1>Clustering</h1>
+
+</td><td class="noborder">  
+
+<img src="images/clusteringTCGA.png" style="width:960px" />
+
+</td></tr></table>
+
+<aside class="notes">
+Clustering is about finding groups in data, that are more similar within themselves and different across themselves<br/>
+Identifying types of cancer, because cancer is not a single disease<br/>
+Using gene expression to find subtypes of cancer, that behave differently in different patients<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<table><tr><td class="noborder">
+
+<h1>Example</h1>
+
+<h2>Clustering wholesale customers</h2>
+
+<p>440 wholesale customers
+<br />  <br /></p>
+
+<p>Annual spending on</p>
+
+<ul>
+<li>Fresh produce</li>
+<li>Milk products</li>
+<li>Grocery products</li>
+<li>Frozen products</li>
+<li>Detergents and paper</li>
+<li>Delicatessen</li>
+</ul>
+
+</td><td class="noborder">
+<div style="height:100px" ></div>
+<img src="images/customers-clusters.png" style="width:960px" />
+
+</td></tr></table>
+
+<aside class="notes">
+Unsupervised algorithm, tries to find patterns in data<br/>
+Hotels spend a lot on paper and detergents<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Methods for clustering</h1>
+
+<ul>
+<li>k-means clustering</li>
+<li>hierarchical clustering</li>
+<li>spectral clustering</li>
+<li>Gaussian mixture model and other probabilistic methods</li>
+<li>...</li>
+</ul>
+
+<aside class="notes">
+find gif of k-means or gaussian mixture model<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Visualisation of high-dimensional data</h1>
+
+<h2>Principal component analysis</h2>
+
+<img src="images/pca_sample.png" style="width:960px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Clustering cancer data</h1>
+
+<p><em>Genes</em> instead of <em>customers</em></p>
+
+<p><em>Gene expression</em> instead of <em>spending on products</em></p>
+
+<aside class="notes">
+Why would we even want to cluster cancer data?<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Conventional medicine</h1>
+
+<img src="images/conventional-medicine.png" style="width:960px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Precision medicine</h1>
+
+<img src="images/precision-medicine.png" style="width:960px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Clustering in cancer research</h1>
+
+<img src="images/clusteringTCGA.png" style="width:700px" />
+
+<p>TCGA breast cancer<br/>
+Clustering 368 tumour samples based on expression of 648 genes.</p>
+
+<aside class="notes">
+Find different sybtypes of cancer<br/>
+[DEMO - cluster gene expression data from TCGA]<br/>
+Survival analysis<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Integrative clustering</h1>
+
+<img src="images/integrative-clustering.png" style="width:960px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Integrative clustering</h1>
+
+<img src="images/integrative-clustering-example.png" style="width:960px" />
+
+<aside class="notes">
+how single data in isolation don’t tell much<br/>
+Example of what I do<br/>
+Identify groups that exist among these different data types.<br/>
+Problems: cannot just put the data together, because they measure something different, have to devise more intelligent methods<br/>
+</aside>
+
+</section>
+
+</section>
+
+<section >
+
+<section >
+
+<table><tr><td class="noborder">
+
+<div style="height:500px" >
+</div>
+
+<h1>Collaborative filtering</h1>
+
+</td><td class="noborder">
+
+<div style="height:200px" > </div>
+<img src="images/collaborative-filtering1.png" style="width:960px" />
+
+</td></tr></table>
+
+<aside class="notes">
+What is collaborative filtering<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Example</h1>
+
+<h2>The Netflix prize</h2>
+
+<table>
+<thead>
+<tr class="header">
+<th><p>User</p></th>
+<th><p>Film 1</p></th>
+<th><p>Film 2</p></th>
+<th><p>Film 3</p></th>
+<th><p>Film 4</p></th>
+<th><p>...</p></th>
+<th><p>Film 1000</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>Alice</p></td>
+<td><p>5</p></td>
+<td><p>2</p></td>
+<td><p>x</p></td>
+<td><p>x</p></td>
+<td><p>...</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="even">
+<td><p>Bob</p></td>
+<td><p>x</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>x</p></td>
+<td><p>...</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="odd">
+<td><p>Carol</p></td>
+<td><p>2</p></td>
+<td><p>x</p></td>
+<td><p>3</p></td>
+<td><p><em>?</em></p></td>
+<td><p>...</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="even">
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+</tr>
+<tr class="odd">
+<td><p>Zoe</p></td>
+<td><p>x</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>...</p></td>
+<td><p>x</p></td>
+</tr>
+</tbody>
+</table>
+
+
+<img src="images/Netflix.jpg" style="width:300px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Matrix factorization</h1>
+
+<img src="images/matrix-factorisation.png" style="width:960px" />
+
+<aside class="notes">
+what methods are used to compute matrix factorisation?<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Collaborative filtering of cancer data</h1>
+
+<p><em>Patients</em> instead of <em>users</em></p>
+
+<p><em>DNA mutations</em> instead of <em>film ratings</em></p>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Mutational signatures</h1>
+
+<table>
+<thead>
+<tr class="header">
+<th><p>Patient</p></th>
+<th><p>C/A</p></th>
+<th><p>C/G</p></th>
+<th><p>C/T</p></th>
+<th><p>T/A</p></th>
+<th><p>T/C</p></th>
+<th><p>T/G</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><p>Alice</p></td>
+<td><p>5</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>4</p></td>
+</tr>
+<tr class="even">
+<td><p>Bob</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>0</p></td>
+<td><p>2</p></td>
+</tr>
+<tr class="odd">
+<td><p>Carol</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+<td><p>3</p></td>
+<td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>3</p></td>
+</tr>
+<tr class="even">
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+<td><p>...</p></td>
+</tr>
+<tr class="odd">
+<td><p>Zoe</p></td>
+<td><p>0</p></td>
+<td><p>5</p></td>
+<td><p>4</p></td>
+<td><p>5</p></td>
+<td><p>2</p></td>
+<td><p>0</p></td>
+</tr>
+</tbody>
+</table>
+
+
+<img src="images/collaborative-filtering2.png" style="width:700px" />
+
+<aside class="notes">
+C/T and T/C are associated with environmental damage<br/>
+different cancers have different signatures<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Matrix factorization to identify features</h1>
+
+<table><tr>
+<td class="noborder"><img src="images/faces-orig.png" style="width:960px" /></td>
+<td class="noborder" style="vertical-align:middle"><img src="images/collaborative-filtering1.png" style="width:960px" /></td>
+</tr>
+</table>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Matrix factorization to identify features</h1>
+
+<img src="images/nmf-faces.png" style="width:550px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Matrix factorization to identify features</h1>
+
+<img src="images/nmf-faces-detail.png" style="width:1024px" />
+
+</section>
+
+</section>
+
+<section >
+
+<section >
+
+<table><tr><td class="noborder">
+
+<div style="height:500px" >
+</div>
+
+<h1>Proving system stability</h1>
+
+</td><td class="noborder">
+
+<img src="images/BiophysicalJournal.jpg" style="width:700px" />
+
+</td></tr></table>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Theorem proving</h1>
+
+<h2>SAT</h2>
+
+<div style="height:50px" ></div>
+
+<p>(A ∨ ¬B ) ∧ (¬ A ∨ B)</p>
+
+<div class="fragment">
+
+<p><em>A = true</em> <br />
+<em>B = true</em></p>
+
+</div>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Theorem proving</h1>
+
+<h2>Satisfiability Modulo Theories (SMT)</h2>
+
+<div style="height:50px" ></div>
+
+<p>(A ∨ ¬B ) ∧ (¬ A ∨ B)</p>
+
+<div style="height:50px" ></div>
+
+<p>((a &gt; 3) ∨ (b &lt; 1)) ∧ ((a &lt; 5) ∨ (b = 0))</p>
+
+<div class="fragment">
+
+<p><em>a = 4</em> <br />
+<em>b = 0</em></p>
+
+</div>
+
+<aside class="notes">
+[DEMO]<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Software verification</h1>
+
+<h2>Z3 theorem prover</h2>
+
+<table>
+<tr><td class="noborder">Preconditions</td><td class="noborder"></td><td class="noborder"> </td></tr>
+<tr><td class="noborder">Postconditions</td><td class="noborder"></td><td class="noborder"> </td></tr>
+<tr><td class="noborder">Loop conditions</td><td class="noborder">➜</td><td class="noborder"> <em>SMT formulas</em> </td></tr>
+<tr><td class="noborder">Assertions</td><td class="noborder"></td><td class="noborder"> </td></tr>
+<tr><td class="noborder">...</td><td class="noborder"></td><td class="noborder"></td></tr>
+</table>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Software verification</h1>
+
+<h2>Spec#</h2>
+
+<img src="images/specsharp1.png" style="width:800px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Software verification</h1>
+
+<h2>Spec#</h2>
+
+<img src="images/specsharp2.png" style="width:800px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Proving stability of biological processes</h1>
+
+<table><tr><td class="noborder">
+
+<p>Proteins </td><td class="noborder"></td></tr>
+<td class="noborder"> Genes </td><td class="noborder"> ➜    <em>Variables</em> </td></tr>
+<td class="noborder">Receptors </td><td class="noborder"></td></tr>
+<td class="noborder"> … </td><td class="noborder"></td></tr>
+</table></p>
+
+<table>
+<tr><td class="noborder"></td><td class="noborder">➜</td><td class="noborder"> v + 1</td><td class="noborder">if v < T(v) </td></tr>
+<tr><td class="noborder">v </td><td class="noborder">➜</td><td class="noborder"> v </td><td class="noborder">if v = T(v) </td></tr>
+<tr><td class="noborder"></td><td class="noborder">➜</td><td class="noborder"> v - 1</td><td class="noborder">if v > T(v) </td></tr>
+</table>
+
+<p><a href="http://biomodelanalyzer.research.microsoft.com/tool.html?Model=preloaded/SkinModel.json">Bio Model Analyser</a></p>
+
+<aside class="notes">
+Traditional way to do this is via systems of differential equations<br/>
+DNA pathways - inhibition and activation<br/>
+Target function T - average effect of inhibitors and activators<br/>
+If we can get to the state where v = T(v) for all variables, the system stabilises<br/>
+Transform this into SMT formula and find a value of the state<br/>
+Iterate until the system stabilises of ends up in a cycle<br/>
+</aside>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Chronic myeloid leukemia</h1>
+
+<img src="images/philadelphia-chromosome.png" style="width:500px" />
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Proving stability of biological systems</h1>
+
+<h2>Chronic myeloid leukemia</h2>
+
+<img src="images/bma.png" style="width:800px" />
+
+<aside class="notes">
+Model constructed from identified interactions from literature<br/>
+Relatively simple system because it’s caused by a single change when two chromosomes overlap and exchange parts<br/>
+The model correctly corresponds to the currently existing drug targets<br/>
+Allows testing what happens when we disable a receptor, or a specific protein<br/>
+Turns out the system is remarkably stable, needs disruption of at least two elements<br/>
+</aside>
+
+<aside class="notes">
+54 nodes, 104 interactions, sourced from published literature (160 papers)<br/>
+</aside>
+
+</section>
+
+</section>
+
+<section >
+
+<section >
+
+<h2>Machine learning is not just</h2>
+
+<h2>for targeted advertising</h2>
+
+<h2>or algorithmic trading</h2>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<p><table>
+<tr>
+  <td class="noborder"><img src="images/twitter.png" style="width:70px" /></td>
+  <td style="vertical-align:middle" class="noborder"> <a href="https://twitter.com/evelgab">@evelgab</a></td>
+</tr>
+<tr>
+  <td class="noborder"><img src="images/email.png" style="width:80px" /></td>
+  <td class="noborder" style="vertical-align:middle" > <a href="mailto:evelina@evelinag.com">evelina@evelinag.com</a></td>
+</tr>
+<tr>
+  <td class="noborder"><img src="images/github.png" style="width:70px" /></td>
+  <td class="noborder" style="vertical-align:middle" > <a href="https://github.com/evelinag">github.com/evelinag</a></td>
+</tr>
+<tr>
+  <td class="noborder"></td>
+  <td class="noborder" style="vertical-align:middle" > <a href="http://evelinag.com">evelinag.com</a></td>
+</tr>
+</table></p>
+
+</section>
+
+<section author="Evelina Gabasova" description="Talk at Oredev" theme="white" title="How machine learning helps cancer research" transition="none">
+
+<h1>Links</h1>
+
+<ul>
+<li><a href="http://www.mrc-cu.cam.ac.uk/">MRC Cancer Unit, University of Cambridge</a></li>
+<li><a href="http://journals.plos.org/plosbiology/article?id=10.1371/journal.pbio.1002195">Big Data: Astronomical or Genomical?</a></li>
+<li><a href="http://www.nature.com/nature/journal/v500/n7463/full/nature12477.html">Signatures of mutational processes in cancer</a></li>
+<li><a href="https://github.com/Z3Prover">Z3 prover</a></li>
+<li><a href="http://research.microsoft.com/en-us/um/cambridge/projects/terminator/biocheck11-final.pdf">Proving stabilization of biological systems</a></li>
+<li><a href="http://biomodelanalyzer.research.microsoft.com/">Bio Model Analyser</a></li>
+<li><a href="http://research.microsoft.com/apps/pubs/default.aspx?id=226356">Drug target optimization in Chronic Myeloid Leukemia using innovative computational platform</a></li>
+</ul>
+
+<table><tr>
+<td class="noborder"><img src="images/mrc-cu.png" style="width:280px"/></td>
+<td class="noborder"><img src="images/cambridge.png" style="width:500px"/></td>
+</tr></table>
+
+</section>
+
+</section>
+
+
+
+        </div>
+    </div>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.js"></script>
+    <script>
+
+        // Full list of configuration options available here:
+        // https://github.com/hakimel/reveal.js#configuration
+        Reveal.initialize({
+            controls: true,
+            progress: true,
+            history: true,
+            center: true,
+            width: 1200,
+            height: 800,
+
+            transition: 'none', // default/cube/page/concave/zoom/linear/fade/none
+
+            // Parallax scrolling
+            // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+            // parallaxBackgroundSize: '2100px 900px',
+
+            // Optional libraries used to extend on reveal.js
+            dependencies: [
+                { src: 'lib/js/classList.js', condition: function () { return !document.body.classList; } },
+                { src: 'plugin/markdown/marked.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/markdown/markdown.js', condition: function () { return !!document.querySelector('[data-markdown]'); } },
+                { src: 'plugin/highlight/highlight.js', async: true, callback: function () { hljs.initHighlightingOnLoad(); } },
+                { src: 'plugin/zoom-js/zoom.js', async: true, condition: function () { return !!document.body.classList; } },
+                { src: 'plugin/notes/notes.js', async: true, condition: function () { return !!document.body.classList; } }
+            ]
+        });
+
+    </script>
+</body>
+</html>
